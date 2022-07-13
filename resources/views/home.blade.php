@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
                 <div class="card-header">
                     <a href="{{ route('user.index') }}" type="button" class="btn btn-primary">Index Users</a>
-                    <a href="{{ route('comments.index') }}" type="button" class="btn btn-success">Index Comments</a>
+                    <a href="{{ url('/users-ajax/index') }}" type="button" class="btn btn-success">Index Users AJAX</a>
                 </div>
 
                 <div class="card-body">

@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('profile')->get();
+        $users = User::with('profile')->simplePaginate(6);
         // dd($users);
         return view('users.index',compact('users'));
     }
@@ -117,5 +117,56 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function indexAjax(){
+        return view('users.indexAjax');
+    }
+
+    public function getDataTable(Request $request){
+        $sort = !empty($request['sort']) ? $request['sort'] : '';
+        $sort_ID = !empty($request['sort_ID']) ? $request['sort_ID'] : '';
+        if (!empty($sort_ID)) {
+            $data = User::with('posts', 'comments','profile')->orderBy('id' , $sort_ID)->get();
+        }elseif(!empty($sort)){
+            $data = User::with('posts', 'comments','profile')->orderBy('name',$sort)->get();
+        }else {
+            $data = User::with('posts', 'comments','profile')->get();
+        }
+        return response()->json(['status' => true, 'data' => $data]);
+    }
+
+    public function searchDataName(Request $request)
+    {
+        $name = $request->all();
+        $user = User::with('posts', 'comments')->where('name', 'LIKE', "%{$name['name']}%")->get();
+        return response()->json(['status' => true, 'data' => $user]);
+    }
+
+    public function searchDataPost(Request $request)
+    {
+        $users = User::with('posts', 'comments')->get();
+        $data = [];
+        $count = $request->all();
+        foreach ($users as $user_key => $user_value) {
+            if (count($user_value->posts) == $count['count']) {
+                $data[$user_key] = $user_value;
+            }
+        }
+
+        return response()->json(['status' => true, 'data' => $data]);
+    }
+
+    public function searchDataComment(Request $request)
+    {
+        $users = User::with('posts', 'comments')->get();
+        $data = [];
+        $count = $request->all();
+        foreach ($users as $user_key => $user_value) {
+            if (count($user_value->comments) == ($count['count'])) {
+                $data[$user_key] = $user_value;
+            }
+        }
+        return response()->json(['status' => true, 'data' => $data]);
     }
 }
