@@ -28,10 +28,12 @@ Route::get('/users/create', [App\Http\Controllers\UserController::class, 'create
 Route::post('/users/store', [App\Http\Controllers\UserController::class, 'store'])->name('user.store');
 Route::get('/users/{id}/comments', [App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 Route::get('/users/{id}', [App\Http\Controllers\UserController::class, 'detail'])->name('user.detail');
+// CRUD AJAX
+Route::post('/users/storeAjax', [App\Http\Controllers\UserController::class, 'storeAjax'])->name('user.storeAjax');
+Route::post('/users/deleteAjax', [App\Http\Controllers\UserController::class, 'deleteAjax'])->name('user.deleteAjax');
+Route::get('/users-ajax/getDataEdit', [App\Http\Controllers\UserController::class, 'getDataEdit'])->name('user.getDataEdit');
+Route::post('/users-ajax/updateUser', [App\Http\Controllers\UserController::class, 'updateUser'])->name('user.updateUser');
 
-// // SORTS
-// Route::get('/users/sort-name', 'UserController@sortName')->name('user.sort.name');
-// Route::get('/users/sort-age', 'UserController@sortAgeDesc')->name('user.sort.age');
 
 //USERS AJAX
 Route::get('/users-ajax/index', [App\Http\Controllers\UserController::class, 'indexAjax'])->name('user.ajax.index');

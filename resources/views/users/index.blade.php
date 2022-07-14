@@ -68,7 +68,6 @@
                             <td>
                                 <a href="{{ url('/users/'.$user->id.'/comments') }}" type="button" class="btn btn-info">Show C</a>
                                 <a href="{{ url('/users/'.$user->id ) }}" type="button" class="btn btn-warning">Detail U</a>
-                                <a href="" type="button" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                     @endforeach

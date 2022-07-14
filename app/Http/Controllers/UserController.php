@@ -41,15 +41,17 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
 
-        // dd($request->all());
+        dd($request->all());
         $data = $request->all();
         $data['password'] = bcrypt($data['password']);
         if($request->hasFile('avatar')){
-            $file = $request->get('avatar');
-            $image = Carbon::now(). $file->getClientOriginalName();
-            $link = $file->move('public/images/',$image);
-            $data['avatar'] = $link;
-        };
+            $file= $request->file('avatar');
+            $extention = $file->getClientOriginalExtension();
+            $filename= time().'.'.$extention;
+            $file-> move('public/image/', $filename);
+            $link = 'public/image/';
+            $data['avatar']= $link.$filename;
+        }
         $user = User::create($data);
         if($user){
             return redirect()->route('user.index')->with('success','Add New User Successfully!!');
@@ -168,5 +170,77 @@ class UserController extends Controller
             }
         }
         return response()->json(['status' => true, 'data' => $data]);
+    }
+
+    public function storeAjax(Request $request)
+    {
+        $action = $request->get('action');
+        if($action == 'create'){
+            $data = $request->all();
+            $data['password'] = bcrypt($data['password']);
+            if($request->hasFile('avatar')){
+                $file= $request->file('avatar');
+                $extention = $file->getClientOriginalExtension();
+                $filename= time().'.'.$extention;
+                $file-> move('public/image/', $filename);
+                $link = 'public/image/';
+                $data['avatar']= $link.$filename;
+            }
+            $user = User::create($data);
+            if($user){
+                return json_encode('Add New User Successfully !!');
+            }else {
+                return json_encode('Add New User Failed !!');
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public function deleteAjax(Request $request){
+        $id = $request->get('id');
+        $user = User::where('id',$id)->delete();
+        if($user){
+            return json_encode(['error' => 0,'message' =>'Delete User Successfully !!']);
+        }else {
+            return json_encode(['error' => 1,'message' =>'Delete User Failed !!']);
+        }
+    }
+
+    public function getDataEdit(Request $request){
+        $id = $request->get('id');
+        // dd($id);
+        $user = User::find($id);
+        if($user){
+            return json_encode($user);
+        }else {
+            return json_encode(['error' => 1,'data' =>'Get User Failed !!']);
+        }
+    }
+
+    public function updateUser(Request $request){
+        dd($request->all());
+        $data = [
+            'name'  => !empty($request->get('name_update')) ? $request->get('name_update') : '',
+            'email'  => !empty($request->get('email_update')) ? $request->get('email_update') : '',
+            'birthday'  => !empty($request->get('birthday_update')) ? $request->get('birthday_update') : '',
+            'status'  => !empty($request->get('status_update')) ? $request->get('status_update') : 1,
+            'avatar'  => !empty($request->get('avatar_update')) ? $request->get('avatar_update') : '',
+        ];
+        $id = $request->get('id_update');
+        if($request->hasFile('avatar_update')){
+            $file= $request->file('avatar_update');
+            $extention = $file->getClientOriginalExtension();
+            $filename= time().'.'.$extention;
+            $file-> move('public/image/', $filename);
+            $link = 'public/image/';
+            $data['avatar']= $link.$filename;
+        }
+        $user = User::where('id',$id)->update($data);
+        if($user){
+            return json_encode(['error' => 0,'message' =>'Update User Successfully !!']);
+        }else {
+            return json_encode(['error' => 1,'message' =>'Update User Failed !!']);
+        }
     }
 }

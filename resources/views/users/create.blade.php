@@ -7,7 +7,7 @@
             <span><h3>Create user </h3></span>
         </div>
         <div class="col-md-12 mt-3">
-            <form action="{{ route('user.store') }}" class="" method="POST">
+            <form action="{{ route('user.store') }}" class="" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="mb-3">

@@ -53,9 +53,6 @@
                     <p class="text-light">{{ session('fails') }}</p>
                 </div>
             @endif
-            <div id="notication">
-
-            </div>
         </div>
         <div class="col-md-12 mt-3">
             <table class="table">
@@ -70,7 +67,6 @@
                             <input type="hidden" class="sort_type" value="">
                         </th>
                         <th scope="col">Email</th>
-                        <th scope="col">Create_At</th>
                         <th scope="col">Status</th>
                         <th scope="col">Sum Post</th>
                         <th scope="col">Sum Comment</th>
@@ -84,19 +80,17 @@
     </div>
 
     {{-- Modal create user --}}
-    <div class="modal fade" id="modal-create">
+    <div class="modal fade" id="modal-create" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Chỉnh sửa người dùng</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h4 class="modal-title">Add New User</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="notication">
                     </div>
-                    <form action="{{ route('user.store') }}" class="" method="POST">
+                    <form id="form-user" action="" class="" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="mb-3">
@@ -127,28 +121,100 @@
                                 <label for="avatar" class="form-label">Avatar</label>
                                 <input type="file" class="form-control" name="avatar" id="avatar">
                             </div>
-                            <div class="col-md-12 mt-2">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <a href="{{ route('user.index') }}" type="button" class="btn btn-secondary">Back</a>
-                                    </div>
-                                    <div class="col-md-3"></div>
-                                    <div class="col-md-3"></div>
-                                    <div class="col-md-3">
-                                        <button type="submit" class="btn btn-primary">Create New User</button>
-                                    </div>
+                            <div class="hidden">
+                                <input hidden type="text" id="action" name="action" value="create">
+                                <input hidden type="text" id="id-user" name="id" value="">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                        <button type="button" name="button" class="btn btn-primary" id="button-create"
+                            title="Add New User">Add New User</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal update user --}}
+    <div class="modal fade" id="modal-update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Eidt User</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="notication-update">
+                    </div>
+                    <form id="form-user-update" action="{{ route('user.updateUser') }}" class="" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="mb-3 hidden">
+                                <input hidden type="text" class="form-control" name="id_update" id="id_update">
+                            </div>
+                            <div class="mb-3">
+                                <label for="name_update" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name_update" id="name_update" placeholder="DNK">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email_update" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email_update" id="email_update" placeholder="name@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="birthday_update" class="form-label">Birthday</label>
+                                <input type="date" class="form-control" name="birthday_update" id="birthday_update">
+                            </div>
+                            <div class="mb-3">
+                                <label for="status_update" class="form-label">Status</label>
+                                <select class="form-select" name="status_update" id="status_update" aria-label="Default select example">
+
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                  <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label" name="avatar_update" id="avatar_update" for="inputGroupFile01">Choose file</label>
+                                  </div>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-                    <button type="button" name="button" class="btn btn-primary" id="button-create"
-                        title="Tạo mới người dùng">Tạo mới người dùng</button>
+                    <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                    <button type="button" name="button" class="btn btn-primary" id="button-update"
+                        title="Update User">Update User</button>
                 </div>
             </div>
         </div>
+    </div>
+
+    {{-- modal delete --}}
+    <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete User</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="notication-delete">
+
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                    <button type="button" name="button" class="btn btn-primary" id="button-delete">Accept</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" id="button-finish">Finish
+                        </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div>
 </div>
 @endsection
