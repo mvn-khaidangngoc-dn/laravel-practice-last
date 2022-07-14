@@ -37,8 +37,13 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="avatar" class="form-label">Avatar</label>
-                        <input type="file" class="form-control" name="avatar" id="avatar" value="{{$userDetail->avatar}}" >
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroupFileAddon01">Avatar</span>
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" name="avatar" id="avatar" for="inputGroupFile01">{{$userDetail->avatar}}</label>
+                          </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>

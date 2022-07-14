@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -177,6 +178,7 @@ class UserController extends Controller
         $action = $request->get('action');
         if($action == 'create'){
             $data = $request->all();
+            // dd($data);
             $data['password'] = bcrypt($data['password']);
             if($request->hasFile('avatar')){
                 $file= $request->file('avatar');
@@ -209,7 +211,6 @@ class UserController extends Controller
 
     public function getDataEdit(Request $request){
         $id = $request->get('id');
-        // dd($id);
         $user = User::find($id);
         if($user){
             return json_encode($user);
@@ -219,7 +220,6 @@ class UserController extends Controller
     }
 
     public function updateUser(Request $request){
-        dd($request->all());
         $data = [
             'name'  => !empty($request->get('name_update')) ? $request->get('name_update') : '',
             'email'  => !empty($request->get('email_update')) ? $request->get('email_update') : '',

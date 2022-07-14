@@ -185,6 +185,7 @@ $(document).ready(function(e) {
 
     $('#createUser').on('click', function() {
         $('#modal-create').modal('show');
+        $('#button-finish').fadeOut();
     })
 
     // Add New user
@@ -203,17 +204,19 @@ $(document).ready(function(e) {
                     var html = '<p class="text-success">' + response + '</p>';
                     $('#notication').html(html);
                     $('#form-user')[0].reset();
-                    $('#button-create').text('Add New User');
-                    $('#modal-create .modal-title').text('Add New User');
                     $('#form-user').css('opacity', 1);
                     $('#button-create').attr('disabled', false);
                     $('#form-user').attr('disabled', false);
+                    $('#button-create').fadeOut();
+                    $('#button-finish').fadeIn();
                 } else {
                     var html = '<p class="text-danger">Add New User Failed!!!</p>';
                     $('#notication').html(html);
                     $('#form-user').css('opacity', 1);
                     $('#button-submit').attr('disabled', false);
                     $('#form-user').attr('disabled', false);
+                    $('#button-create').fadeOut();
+                    $('#button-finish').fadeIn();
                 }
                 loadDataUser();
             },
@@ -234,11 +237,11 @@ $(document).ready(function(e) {
         var id = $(this).attr('data-id');
         var name = $(this).attr('data-name');
         $('#modal-delete').modal('show');
+        $('#button-finish-delete').fadeOut();
         $('#modal-delete .modal-title').text('Delete User');
         $('#notication-delete').html('<span>Do you want delete User <b class="text-danger">' + name + '</b>?');
         $('#button-delete').attr('data-id', id);
         $('#button-delete').fadeIn();
-        $('#button-finish').fadeOut();
         $(this).closest('tr').addClass('choose-group');
     })
 
@@ -255,8 +258,7 @@ $(document).ready(function(e) {
                 if (!data.error) {
                     html += '<span class="text-success">Delete User Successfully!!</span>';
                     $('#button-delete').fadeOut();
-                    $('#button-finish').fadeIn();
-                    $('.choose-group').fadeOut();
+                    $('#button-finish-delete').fadeIn();
                 } else {
                     var html = '<span class="text-danger">' + data.message + '</span>';
                 }
@@ -275,16 +277,15 @@ $(document).ready(function(e) {
 
     $(document).on('click', '.edit_user', function() {
         $('#modal-update').modal('show');
+        $('#button-finish-update').fadeOut();
+        $('#button-update').fadeIn();
         var id = $(this).attr('data-id');
-        console.log(id);
         $.ajax({
             url: '/users-ajax/getDataEdit',
             type: 'GET',
             dataType: 'json',
             data: { id: id },
             success: function(data) {
-                console.log(data);
-                //
                 if (data) {
                     $('#id_update').val(data.id);
                     $('#name_update').val(data.name);
@@ -304,9 +305,6 @@ $(document).ready(function(e) {
                     }
                     $('#status_update').html(html1);
                     $('#status_update').val(data.status);
-                    if(data.avatar != ''){
-                        $('#inputGroupFile01').setAttribute('hidden');
-                    }
                     $('#avatar_update').text(data.avatar);
 
                 } else {
@@ -332,19 +330,21 @@ $(document).ready(function(e) {
             type: 'post',
             dataType: 'json',
             data: form,
+            contentType: false,
+            processData: false,
             success: function(data) {
                 console.log(data);
                 var html = '';
                 if (!data.error) {
                     html += '<span class="text-success">Update User Successfully!!</span>';
                     $('#button-update').fadeOut();
-                    $('#button-finish').fadeIn();
-                    $('.choose-group').fadeOut();
+                    $('#button-finish-update').fadeIn();
                 } else {
                     var html = '<span class="text-danger">' + data.message + '</span>';
                 }
                 $('#button-update').attr('disabled', false);
                 $('#notication-update').html(html);
+                $('#button-finish-update').fadeIn();
                 loadDataUser();
             },
             error: function(e) {

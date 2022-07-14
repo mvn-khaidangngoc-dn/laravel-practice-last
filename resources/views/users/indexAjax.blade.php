@@ -118,8 +118,13 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="avatar" class="form-label">Avatar</label>
-                                <input type="file" class="form-control" name="avatar" id="avatar">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="inputGroupFileAddon01">Avatar</span>
+                                  <div class="custom-file">
+                                    <input type="file"  name="avatar" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                    <label class="custom-file-label" name="avatar" id="avatar" for="inputGroupFile01">Choose file</label>
+                                  </div>
+                                </div>
                             </div>
                             <div class="hidden">
                                 <input hidden type="text" id="action" name="action" value="create">
@@ -131,6 +136,7 @@
                         <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
                         <button type="button" name="button" class="btn btn-primary" id="button-create"
                             title="Add New User">Add New User</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="button-finish">Finish</button>
                     </div>
                 </div>
             </div>
@@ -173,9 +179,9 @@
                             </div>
                             <div class="mb-3">
                                 <div class="input-group-prepend">
-                                  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                                  <span class="input-group-text" id="inputGroupFileAddon01">Avatar</span>
                                   <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                    <input type="file"  name="avatar_update" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                     <label class="custom-file-label" name="avatar_update" id="avatar_update" for="inputGroupFile01">Choose file</label>
                                   </div>
                                 </div>
@@ -187,6 +193,7 @@
                     <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
                     <button type="button" name="button" class="btn btn-primary" id="button-update"
                         title="Update User">Update User</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="button-finish-update">Finish</button>
                 </div>
             </div>
         </div>
@@ -208,8 +215,7 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
                     <button type="button" name="button" class="btn btn-primary" id="button-delete">Accept</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal" id="button-finish">Finish
-                        </button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="button-finish-delete">Finish</button>
                 </div>
             </div>
             <!-- /.modal-content -->
