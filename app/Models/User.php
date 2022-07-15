@@ -20,6 +20,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'birthday',
+        'status',
+        'avatar'
     ];
 
     /**
@@ -40,4 +43,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class,'user_id','id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class,'user_id','id');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class,'user_id','id');
+    }
 }
